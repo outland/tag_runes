@@ -72,7 +72,7 @@ module TagRunes
       # Keep requests separated when deployed for sanity's sake
       unless Rails.env.development?
         ActiveSupport::Notifications.subscribe('process_action.action_controller') do |_|
-          Rails.logger.info "\n\n"
+          Rails.logger.info "\n"
         end
       end
 
