@@ -1,5 +1,4 @@
-require 'outland/tag_runes/custom_log_renamer'
-require 'outland/tag_runes/rotational_logger'
+require 'outland/tag_runes/rotational_logs'
 require 'outland/tag_runes/version'
 
 module Outland

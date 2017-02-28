@@ -1,3 +1,7 @@
+**1.1.1** (February 27, 2017)
+
+* Less intrusive method of controlling the RotationalLogs renaming pattern by using singleton classes on directly created objects rather than a general monkeypatch.
+
 **1.1** (February 27, 2017)
 
 * Rotational logger
