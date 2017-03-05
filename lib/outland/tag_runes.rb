@@ -52,8 +52,15 @@ module TagRunes
   # ensure tags appear on each line of a multiline log statement.
   module MultilineFormatter
 
+    # Completed 200 OK in 244ms (Views: 78.9ms | ActiveRecord: 52.1ms)
+    COMPLETED_RE = /\ACompleted \d\d\d \w/
+
     def call(severity, timestamp, progname, msg)
-      if msg && msg.index("\n")
+      if msg && COMPLETED_RE.match(msg) && !Rails.env.development?
+        # keep requests separated when deployed for sanity's sake
+        [super, super(severity, timestamp, progname, '')].join
+      elsif msg && msg.index("\n")
+        # apply the tags to each line via the underlying log tagger
         msg.lines.map{|l| super(severity, timestamp, progname, l.chomp)}.join
       else
         super
@@ -66,16 +73,7 @@ module TagRunes
   # Hook Rails init process
   class Railtie < Rails::Railtie
     initializer 'outland-tag_runes' do |app|
-
       Rails.logger.formatter.extend MultilineFormatter
-
-      # Keep requests separated when deployed for sanity's sake
-      unless Rails.env.development?
-        ActiveSupport::Notifications.subscribe('process_action.action_controller') do |_|
-          Rails.logger.info "\n"
-        end
-      end
-
     end
   end
 

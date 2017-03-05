@@ -1,3 +1,7 @@
+**1.1.3** (March 5, 2017)
+
+* More robust method of space-separating requests in non-development environments.
+
 **1.1.2** (February 27, 2017)
 
 * Same linefeeds in deployed environments as in development.
