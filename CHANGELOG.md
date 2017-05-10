@@ -1,3 +1,7 @@
+**1.1.4** (May 10, 2017)
+
+* Handle non-string log messages that can be converted to a string.
+
 **1.1.3** (March 5, 2017)
 
 * More robust method of space-separating requests in non-development environments.
