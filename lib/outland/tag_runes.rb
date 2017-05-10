@@ -56,12 +56,13 @@ module TagRunes
     COMPLETED_RE = /\ACompleted \d\d\d \w/
 
     def call(severity, timestamp, progname, msg)
-      if msg && COMPLETED_RE.match(msg) && !Rails.env.development?
+      msg_s = msg&.to_s
+      if msg_s && COMPLETED_RE.match(msg_s) && !Rails.env.development?
         # keep requests separated when deployed for sanity's sake
         [super, super(severity, timestamp, progname, '')].join
-      elsif msg && msg.index("\n")
+      elsif msg_s && msg_s.index("\n")
         # apply the tags to each line via the underlying log tagger
-        msg.lines.map{|l| super(severity, timestamp, progname, l.chomp)}.join
+        msg_s.lines.map{|l| super(severity, timestamp, progname, l.chomp)}.join
       else
         super
       end
